@@ -1,7 +1,6 @@
 <div align="center">
 
-<img src="core/assets/squadjs-logo.png" alt="Logo" width="500"/>
-
+![sWivDO.png](https://s3.ax1x.com/2021/01/20/sWivDO.png)
 #### SquadJS
 
 [![GitHub release](https://img.shields.io/github/release/Thomas-Smyth/SquadJS.svg?style=flat-square)](https://github.com/Thomas-Smyth/SquadJS/releases)
@@ -18,30 +17,40 @@
 <br><br>
 </div>
 
-## About
+## 关于
 SquadJS is a scripting framework, designed for Squad servers, that aims to handle all communication and data collection to and from the servers. Using SquadJS as the base to any of your scripting projects allows you to easily write complex plugins without having to worry about the hassle of RCON or log parsing. However, for your convenience SquadJS comes shipped with multiple plugins already built for you allowing you to experience the power of SquadJS right away.
 
-## Using SquadJS
-SquadJS relies on being able to access the Squad server log directory in order to parse logs live to collect information. Thus, SquadJS must be hosted on the same server box as your Squad server.
+## 修改说明
+这个分叉修改了Squad的部分插件(汉化)，删除了所有 Discord 相关内容。(因为国内用不上)
 
-### Prerequisites
+### 新增插件：
+- HttpApi - 提供一个Http的Api接口，输出服务器地图+玩家列表 (包含SteamID4)
+- ClanRandomizer - 仅打乱战队阵营插件，默认命令：/打乱战队阵营
+
+## 使用 SquadJS
+SquadJS relies on being able to access the Squad server log directory in order to parse logs live to collect information. Thus, SquadJS must be hosted on the same server box as your Squad server or be connected to your Squad server via FTP.
+
+### 环境需求
  * Git
  * [Node.js](https://nodejs.org/en/) (Current) - [Download](https://nodejs.org/en/)
  * [Yarn](https://yarnpkg.com/) (Version 1.22.0+) - [Download](https://classic.yarnpkg.com/en/docs/install)
  * Some plugins may have additional requirements.
  
-### Installation
-1. Clone the repository: `git clone https://github.com/Thomas-Smyth/SquadJS`
-2. Install the dependencies: `yarn install`
-3. Configure the `config.json` file. See below for more details.
-4. Start SquadJS: `node index.js`.
+### 安装
+1. 执行：`git clone https://github.com/Thomas-Smyth/SquadJS`
+2. 执行：`yarn install`
+3. 编辑配置 `config.json` 文件
+4. 启动 SquadJS: `node index.js`.
+   
+由于此版本SquadJS有BUG导致程序经常崩溃，推荐使用PM2运行且每5分钟重启一次进程
 
-### Configuring SquadJS
+
+### 配置 SquadJS
 SquadJS can be configured via a JSON configuration file which, by default, is located in the SquadJS and is named [config.json](https://github.com/Thomas-Smyth/SquadJS/blob/master/config.json).
 
 The config file needs to be valid JSON syntax. If an error is thrown saying the config cannot be parsed then try putting the config into a JSON syntax checker (there's plenty to choose from that can be found via Google).
 
-#### Server
+#### 服务器
 The following section of the configuration contains information about your Squad server.
 ```json
 "server": {
@@ -64,6 +73,7 @@ The following section of the configuration contains information about your Squad
  * `rconPort` - The RCON port of the server.
  * `rconPassword` - The RCON password of the server.
  * `logReaderMode` - `tail` will read from a local log file. `ftp` will read from a remote log file.
+ * `logDir` - The folder where your Squad logs are saved. Most likely will be `C:/servers/squad_server/SquadGame/Saved/Logs`
  * `ftpPort` - The FTP port of the server. Only required for `ftp` `logReaderMode`.
  * `ftpUser` - The FTP user of the server. Only required for `ftp` `logReaderMode`.
  * `ftpPassword` - The FTP password of the server. Only required for `ftp` `logReaderMode`.

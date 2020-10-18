@@ -1,0 +1,81 @@
+{
+  "server": {
+    "id": 1,
+    "host": "xxx.xxx.xxx.xxx",
+    "queryPort": 26301,
+    "rconPort": 36301,
+    "rconPassword": "",
+    "logReaderMode": "tail",
+    "logDir": "D:/Servers/Server_Test/SquadGame/Saved/Logs",
+    "rconVerbose": true
+  },
+  "connectors": {
+    "layerFilter": {
+      "type": "buildFromFilter",
+      "filter": {
+        "whitelistedLayers": null,
+        "blacklistedLayers": null,
+        "whitelistedMaps": null,
+        "blacklistedMaps": null,
+        "whitelistedGamemodes": null,
+        "blacklistedGamemodes": [
+          "Training"
+        ],
+        "flagCountMin": null,
+        "flagCountMax": null,
+        "hasCommander": null,
+        "hasTanks": null,
+        "hasHelicopters": null
+      },
+      "activeLayerFilter": {
+        "historyResetTime": 18000000,
+        "layerHistoryTolerance": 8,
+        "mapHistoryTolerance": 4,
+        "gamemodeHistoryTolerance": {
+          "Invasion": 4
+        },
+        "gamemodeRepetitiveTolerance": {
+          "Invasion": 4
+        },
+        "playerCountComplianceEnabled": true,
+        "factionComplianceEnabled": true,
+        "factionHistoryTolerance": {
+          "RUS": 4
+        },
+        "factionRepetitiveTolerance": {
+          "RUS": 4
+        }
+      }
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "http-api",
+      "enabled": true
+    },
+    {
+      "plugin": "auto-tk-warn",
+      "enabled": true
+    },
+    {
+      "plugin": "team-randomizer",
+      "enabled": true
+    },
+    {
+      "plugin": "clan-randomizer",
+      "enabled": true
+    },
+    {
+      "plugin": "chat-commands",
+      "enabled": true,
+      "commands": [
+        {
+          "command": "/squadjs",
+          "type": "warn",
+          "response": "SquadJS 正在运行",
+          "ignoreChats": []
+        }
+      ]
+    }
+  ]
+}

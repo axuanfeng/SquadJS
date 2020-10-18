@@ -1,13 +1,4 @@
 import autoTKWarn from './auto-tk-warn/index.js';
-import discordAdminBroadcast from './discord-admin-broadcast/index.js';
-import discordAdminCamLogs from './discord-admin-cam-logs/index.js';
-import discordChat from './discord-chat/index.js';
-import discordChatAdminRequest from './discord-admin-request/index.js';
-import discordDebug from './discord-debug/index.js';
-import discordRCON from './discord-rcon/index.js';
-import discordRoundWinner from './discord-round-winner/index.js';
-import discordServerStatus from './discord-server-status/index.js';
-import discordTeamkill from './discord-teamkill/index.js';
 import intervalledBroadcasts from './intervalled-broadcasts/index.js';
 import mapvote123 from './mapvote/mapvote-123.js';
 import mapvoteDidYouMean from './mapvote/mapvote-did-you-mean.js';
@@ -15,48 +6,36 @@ import mysqlLog from './mysql-log/index.js';
 import seedingMessage from './seeding-message/index.js';
 import skipMap from './skipmap/index.js';
 import teamRandomizer from './team-randomizer/index.js';
+import clanRandomizer from './clan-randomizer/index.js';
+import httpApi from './http-api/index.js';
 import chatCommands from './chat-commands/index.js';
 
 export {
   autoTKWarn,
   chatCommands,
-  discordAdminBroadcast,
-  discordAdminCamLogs,
-  discordChat,
-  discordChatAdminRequest,
-  discordDebug,
-  discordRCON,
-  discordRoundWinner,
-  discordServerStatus,
-  discordTeamkill,
   intervalledBroadcasts,
   mapvote123,
   mapvoteDidYouMean,
   mysqlLog,
   seedingMessage,
   skipMap,
-  teamRandomizer
+  httpApi,
+  teamRandomizer,
+  clanRandomizer
 };
 
 const plugins = [
   autoTKWarn,
   chatCommands,
-  discordAdminBroadcast,
-  discordAdminCamLogs,
-  discordChat,
-  discordChatAdminRequest,
-  discordDebug,
-  discordRCON,
-  discordRoundWinner,
-  discordServerStatus,
-  discordTeamkill,
   intervalledBroadcasts,
   mapvote123,
   mapvoteDidYouMean,
   mysqlLog,
   seedingMessage,
   skipMap,
-  teamRandomizer
+  httpApi,
+  teamRandomizer,
+  clanRandomizer
 ];
 
 const namedPlugins = {};

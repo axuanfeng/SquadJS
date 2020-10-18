@@ -17,40 +17,64 @@ export default class Server extends EventEmitter {
   constructor(options = {}) {
     super();
 
-    // store options
-    if (!('id' in options)) throw new Error('Server must have an ID.');
+    // console.log(options)
+
+    // 检查服务器配置
+    if (!('id' in options)) throw new Error('服务器ID不能为空');
     this.id = options.id;
 
-    if (!('host' in options)) throw new Error('Server must have a host.');
+    if (!('host' in options)) throw new Error('服务器Host不能为空');
     this.host = options.host;
 
-    if (!('queryPort' in options)) throw new Error('Server must have a queryPort.');
+    if (!('queryPort' in options)) throw new Error('服务器查询端口不能为空');
     this.queryPort = options.queryPort;
 
+    // 服务器信息更新时间 默认：30秒
     this.updateInterval = options.updateInterval || 30 * 1000;
 
-    // setup additional classes
+    // 设置类
     this.rcon = new Rcon(options, this);
     this.logParser = new LogParser(options, this);
 
-    // setup internal data storage
+    // 设置内部储存
     this.layerHistory = options.layerHistory || [];
     this.layerHistoryMaxLength = options.layerHistoryMaxLength || 20;
 
     this.players = [];
 
-    // store additional information about players by SteamID
+    // 设置玩家内存储存变量
     this.suffixStore = {};
 
-    // setup internal listeners
+    // 设置内部监听器
     this.on(NEW_GAME, this.onLayerChange.bind(this));
 
-    // setup period updaters
+    // 设置时间更新
     this.updatePlayers = this.updatePlayers.bind(this);
     this.updatePlayerTimeout = setTimeout(this.updatePlayers, this.updateInterval);
 
+
+    setTimeout(async () => {
+      const data = await this.rcon.getMapInfo();
+      // console.log(data);
+      this.currentLayer = data.currentLayer;
+      this.nextLayer = data.nextLayer;
+      this.emit(LAYERS_UPDATED, data);
+
+      this.players = await this.rcon.listPlayers();
+      for (let i = 0; i < this.players.length; i++) {
+        this.players[i].suffix = this.suffixStore[this.players[i].steamID];
+      }
+      this.emit(PLAYERS_UPDATED, this.players);
+    }, 1000)
+
+
+
+
+
+    // 更新服务器地图
     setInterval(async () => {
       const data = await this.rcon.getMapInfo();
+      // console.log(data);
       this.currentLayer = data.currentLayer;
       this.nextLayer = data.nextLayer;
       this.emit(LAYERS_UPDATED, data);
@@ -91,15 +115,15 @@ export default class Server extends EventEmitter {
   }
 
   async watch() {
-    console.log(`Watching server ${this.id}...`);
     if (this.logParser) await this.logParser.watch();
     if (this.rcon) await this.rcon.watch();
+    console.log(`[系统消息] 开始监听服务器 ${this.id}`);
   }
 
   async unwatch() {
     if (this.logParser) await this.logParser.unwatch();
     if (this.rcon) await this.rcon.unwatch();
-    console.log('Stopped watching.');
+    console.log(`[系统消息] 取消监听服务器 ${this.id}`);
   }
 
   async updatePlayers() {
@@ -107,12 +131,14 @@ export default class Server extends EventEmitter {
 
     this.players = await this.rcon.listPlayers();
 
-    // readd additional information about the player we have collected
+    // console.log(this.players);
+
+    // 存储玩家信息
     for (let i = 0; i < this.players.length; i++) {
       this.players[i].suffix = this.suffixStore[this.players[i].steamID];
     }
 
-    // delay another update
+    // 创建下一次延迟更新
     this.updatePlayerTimeout = setTimeout(this.updatePlayers, this.updateInterval);
 
     this.emit(PLAYERS_UPDATED, this.players);

@@ -2,23 +2,19 @@ import { TEAMKILL } from 'squad-server/events';
 
 export default {
   name: 'auto-tk-warn',
-  description:
-    'The <code>auto-tk-warn</code> plugin will automatically warn players in game to apologise for teamkills when ' +
-    'they teamkill another player.',
-
+  description: '当出现玩家TK时，使用 <code>AdminWarn</code> 命令警告',
   defaultEnabled: true,
   optionsSpec: {
     message: {
       required: false,
-      description: 'The message to warn players with.',
-      default: 'Please apologise for ALL TKs in ALL chat!',
-      example: 'Test'
+      description: '警告玩家的消息',
+      default: '误伤友军请及时在公共频道(J)道歉！'
     }
   },
 
   init: async (server, options) => {
     server.on(TEAMKILL, (info) => {
-      // ignore suicides
+      // 忽略自杀
       if (info.attacker.steamID === info.victim.steamID) return;
       server.rcon.warn(info.attacker.steamID, options.message);
     });

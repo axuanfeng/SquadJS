@@ -5,22 +5,22 @@ import buildConnectors from './build-connectors.js';
 import plugins from 'plugins';
 
 export default async function (configPath) {
-  console.log('SquadJS factory commencing building...');
+  console.log('[系统消息] 初始化 SquadJS');
 
-  console.log('Getting config file...');
+  console.log('[系统消息] 获取配置文件');
   const config = readConfig(configPath);
 
-  console.log('Building Squad server...');
+  console.log('[系统消息] 构建Squad服务器');
   const server = buildSquadServer(config);
 
-  console.log('Initialising connectors...');
+  console.log('[系统消息] 初始化连接');
   const connectors = await buildConnectors(config);
 
-  console.log('Loading plugins...');
+  console.log('[系统消息] 加载插件...');
   for (const pluginConfig of config.plugins) {
     if (!pluginConfig.enabled) continue;
 
-    console.log(`Loading plugin ${pluginConfig.plugin}...`);
+    console.log(`[系统消息] 插件 ${pluginConfig.plugin} 加载成功`);
     const plugin = plugins[pluginConfig.plugin];
 
     const options = {};

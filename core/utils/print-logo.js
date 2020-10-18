@@ -12,6 +12,7 @@ const LOGO = `
 ${COPYRIGHT_MESSAGE}
 GitHub: https://github.com/Thomas-Smyth/SquadJS
 Version: ${SQUADJS_VERSION}
+汉化：旋风
 `;
 
 export default function () {

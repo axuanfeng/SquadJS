@@ -40,17 +40,17 @@ export default class Rcon {
 
   /* RCON functionality */
   watch() {
-    this.verbose('Method Exec: watch()');
+    this.verbose('执行：监听()');
     return this.connect();
   }
 
   unwatch() {
-    this.verbose('Method Exec: unwatch()');
+    this.verbose('执行：取消监听()');
     return this.disconnect();
   }
 
   execute(command) {
-    this.verbose(`Method Exec: execute(${command})`);
+    this.verbose(`执行：命令(${command})`);
     return this.write(RCONProtocol.SERVERDATA_EXECCOMMAND, command);
   }
 
@@ -73,13 +73,12 @@ export default class Rcon {
         /ID: ([0-9]+) \| SteamID: ([0-9]{17}) \| Name: (.+) \| Team ID: ([0-9]+) \| Squad ID: ([0-9]+|N\/A)/
       );
       if (!match) continue;
-
       players.push({
-        playerID: match[1],
+        playerID: Number(match[1]),
         steamID: match[2],
         name: match[3],
-        teamID: match[4],
-        squadID: match[5] !== 'N/A' ? match[5] : null
+        teamID: Number(match[4]),
+        squadID: match[5] !== 'N/A' ? Number(match[5]) : null
       });
     }
 
@@ -94,9 +93,14 @@ export default class Rcon {
     await this.execute(`AdminWarn "${steamID}" ${message}`);
   }
 
+  async kick(steamID, message) {
+    await this.execute(`AdminKick "${steamID}" ${message}`);
+  }
+
+
   /* Core socket functionality */
   connect() {
-    this.verbose('Method Exec: connect()');
+    this.verbose('执行：连接()');
     return new Promise((resolve, reject) => {
       this.autoReconnect = true;
 
@@ -130,10 +134,10 @@ export default class Rcon {
       });
 
       const onConnect = async () => {
-        this.verbose('Socket Opened.');
+        this.verbose('连接服务器...');
         this.client.removeListener('error', onError);
         this.connected = true;
-        this.verbose('Sending auth packet...');
+        this.verbose('发送身份验证信息...');
         await this.write(RCONProtocol.SERVERDATA_AUTH, this.password);
         resolve();
       };
@@ -211,7 +215,7 @@ export default class Rcon {
 
           this.currentMultiPacket = [];
 
-          this.verbose('Authenticated.');
+          this.verbose('***连接成功***');
           resolve();
         }
       };
@@ -306,6 +310,20 @@ export default class Rcon {
   }
 
   verbose(msg) {
-    if (this.verboseEnabled) console.log(`[${Date.now()}] RCON (Verbose): ${msg}`);
+    if (this.verboseEnabled) console.log(`[${getFormatDate()}] Server:${this.emitter.id} Rcon日志: ${msg}`);
   }
+}
+
+function getFormatDate() {
+  let date = new Date();
+  let month = date.getMonth() + 1;
+  let strDate = date.getDate();
+  let Hours = date.getHours();
+  let Minutes = date.getMinutes();
+  if (month >= 1 && month <= 9) month = "0" + month;
+  if (strDate >= 0 && strDate <= 9) strDate = "0" + strDate;
+  if (Hours >= 0 && Hours <= 9) Hours = "0" + Hours;
+  if (Minutes >= 0 && Minutes <= 9) Minutes = "0" + Minutes;
+  let currentDate = date.getFullYear() + "-" + month + "-" + strDate + " " + Hours + ":" + Minutes;
+  return currentDate;
 }
