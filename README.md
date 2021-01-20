@@ -37,7 +37,7 @@ SquadJS relies on being able to access the Squad server log directory in order t
  * Some plugins may have additional requirements.
  
 ### 安装
-1. 执行：`git clone https://github.com.cnpmjs.org/axuanfeng/SquadJS`
+1. 执行：`git clone https://github.com/axuanfeng/SquadJS`
 2. 执行：`yarn install`
 3. 编辑配置 `config.json` 文件
 4. 启动 SquadJS: `node index.js`
