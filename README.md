@@ -24,7 +24,7 @@ SquadJS is a scripting framework, designed for Squad servers, that aims to handl
 这个分叉修改了Squad的部分插件(汉化)，删除了所有 Discord 相关内容。(因为国内用不上)
 
 ### 新增插件：
-- HttpApi - 提供一个Http的Api接口，输出服务器地图+玩家列表 (包含SteamID4)
+- HttpApi - 提供一个Http的Api接口，输出服务器地图+玩家列表 (包含SteamID64)
 - ClanRandomizer - 仅打乱战队阵营插件，默认命令：/打乱战队阵营
 
 ## 使用 SquadJS
@@ -40,7 +40,7 @@ SquadJS relies on being able to access the Squad server log directory in order t
 1. 执行：`git clone https://github.com/Thomas-Smyth/SquadJS`
 2. 执行：`yarn install`
 3. 编辑配置 `config.json` 文件
-4. 启动 SquadJS: `node index.js`.
+4. 启动 SquadJS: `node index.js`
    
 由于此版本SquadJS有BUG导致程序经常崩溃，推荐使用PM2运行且每5分钟重启一次进程
 
